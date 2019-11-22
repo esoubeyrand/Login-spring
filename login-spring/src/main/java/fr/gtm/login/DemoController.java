@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class DemoController {
@@ -23,6 +24,12 @@ public class DemoController {
 		model.addAttribute("message", message);
 		return "home";
 
+	}
+	
+	@PostMapping("/user/new")
+	public void createUser(String user, String password, String role) throws NoSuchAlgorithmException {
+		String sha = digest.encode(password);
+		clientRepository.createUser(user, password, role, sha);
 	}
 
 	@GetMapping("/login")
